@@ -1,0 +1,5 @@
+local items = require("../build/Items")
+assert(#items == 2 and items[1].id == "toolkit" and items[1].price == 250)
+assert(items[2].requires == "toolkit")
+assert(table.isfrozen(items) and table.isfrozen(items[1]))
+print("Generated module loads correctly in Luau")
