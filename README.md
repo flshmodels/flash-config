@@ -2,11 +2,11 @@
 
 [![Tests](https://github.com/flshmodels/flash-config/actions/workflows/test.yml/badge.svg)](https://github.com/flshmodels/flash-config/actions/workflows/test.yml)
 
-Check an item catalog before it reaches your game. Flash Config reads CSV or JSON, catches common data mistakes, and writes a frozen Luau table you can use as a ModuleScript.
+Turn a CSV or JSON item catalog into a Roblox ModuleScript. The checker catches invalid prices, duplicate IDs and broken prerequisites before generating the file.
 
-It runs on your computer when you invoke it. No server, account, third-party packages, or Roblox credentials are needed.
+Run it locally with Python. No extra packages or Roblox login are needed.
 
-## Try it
+## Getting started
 
 Requires Python 3.11 or newer. From the repository folder:
 
@@ -20,7 +20,7 @@ On Windows, use `py` instead of `python` if that is how Python is installed.
 
 Open the generated file and copy it into a ModuleScript named **Items** in ServerScriptService. If your project uses Rojo, put it in the directory mapped to that service instead. `examples/ReadCatalog.server.luau` shows how to build a lookup by item ID. A Studio plugin or importer is not required.
 
-## Input
+## Catalog format
 
 JSON is an array of objects. CSV uses these exact headers, in any order:
 
@@ -38,14 +38,16 @@ The catalog may contain 1–10,000 items and must fit in 1 MiB of UTF-8 text. UT
 - `--check` validates without creating a file.
 - `--output path.luau` generates an array in source order. Each row and the outer table are frozen. References remain ID strings.
 - A successful command prints an item count and exits 0. Invalid input or a file error prints an explanation to stderr and exits 1. Incorrect CLI usage exits 2.
-- Output is deterministic and replaced atomically after validation. A validation failure leaves existing output intact. Parent directories are created when needed.
+- The same catalog produces the same output. After validation, the new file replaces the old one in a single operation. Failed validation leaves the old file alone. Missing parent directories are created.
 
-The generated module only holds data. It does not grant items, enforce prerequisites, save balances, or validate purchase requests. Those responsibilities belong in your game's server code. There is no upload or live synchronization.
+The module holds item data. Your server code still needs to handle purchases, ownership, prerequisites and saving. Changes reach the game when you regenerate and import the file.
 
-## Checks and scope
+## Tests
 
-Tests cover malformed inputs, reference cycles, Unicode escaping, a long prerequisite chain, CSV/JSON agreement, command exit codes and preserving output on failure. CI also loads a generated module in Lune and checks its values and frozen tables. A live Roblox Studio integration check remains separate.
+Tests cover malformed inputs, reference cycles, Unicode escaping, a long prerequisite chain, CSV/JSON agreement, command exit codes and preserving output on failure. CI also loads a generated module in Lune and checks its values and frozen tables. Live Roblox Studio integration has not been tested.
 
-[Tarmac](https://github.com/Roblox/tarmac) is an existing Roblox resource compiler and asset manager. Comparing its scope helped keep this project focused: Flash Config handles a small item-data format and generates source; it does not process or upload assets. [Rojo](https://github.com/rojo-rbx/rojo) can handle syncing that source into Studio. No code was copied from either project.
+## Related tools
+
+[Tarmac](https://github.com/Roblox/tarmac) compiles and manages Roblox assets. Flash Config handles item catalog data. [Rojo](https://github.com/rojo-rbx/rojo) can sync the generated source into Studio.
 
 MIT licensed. See [LICENSE](LICENSE).
