@@ -1,0 +1,3 @@
+id,name,price,requires
+toolkit,Repair kit,250,
+toolkit_pro,Mechanic kit,750,toolkit

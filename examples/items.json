@@ -1,0 +1,4 @@
+[
+  {"id": "toolkit", "name": "Repair kit", "price": 250},
+  {"id": "toolkit_pro", "name": "Mechanic kit", "price": 750, "requires": "toolkit"}
+]
