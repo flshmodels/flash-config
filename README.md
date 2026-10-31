@@ -2,11 +2,11 @@
 
 [![Tests](https://github.com/flshmodels/flash-config/actions/workflows/test.yml/badge.svg)](https://github.com/flshmodels/flash-config/actions/workflows/test.yml)
 
-Turn a CSV or JSON item catalog into a Roblox ModuleScript. The checker catches invalid prices, duplicate IDs and broken prerequisites before generating the file.
+Check a CSV or JSON item list, then export it as a Roblox ModuleScript. Invalid prices, duplicate IDs and broken prerequisites stop the export.
 
 Run it locally with Python. No extra packages or Roblox login are needed.
 
-## Getting started
+## Setup
 
 Requires Python 3.11 or newer. From the repository folder:
 
