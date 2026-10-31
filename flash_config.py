@@ -29,6 +29,10 @@ def unique_object(pairs):
     return result
 
 
+def reject_nonfinite_number(value):
+    raise CatalogError(f"invalid number: {value}")
+
+
 def load_catalog(path):
     path = Path(path)
     with path.open("rb") as stream:
@@ -37,8 +41,11 @@ def load_catalog(path):
         raise CatalogError("input exceeds 1 MiB")
     text = raw.decode("utf-8-sig")
     if path.suffix.lower() == ".json":
-        rows = json.loads(text, object_pairs_hook=unique_object,
-                          parse_constant=lambda value: (_ for _ in ()).throw(CatalogError(f"invalid number: {value}")))
+        rows = json.loads(
+            text,
+            object_pairs_hook=unique_object,
+            parse_constant=reject_nonfinite_number,
+        )
     elif path.suffix.lower() == ".csv":
         reader = csv.DictReader(io.StringIO(text, newline=""), strict=True)
         headers = reader.fieldnames
